@@ -117,6 +117,7 @@
 
         <script>
             alert($.support.cors);
+            $.mobile.allowCrossDomainPages = true;
             alert($.mobile.allowCrossDomainPages);
             $.ajax({
                 url: 'http://redsox.tcs.auckland.ac.nz/CSS/CSService.svc/courses',
