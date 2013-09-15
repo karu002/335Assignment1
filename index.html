@@ -129,13 +129,13 @@
             $.ajax({
                 url: 'http://redsox.tcs.auckland.ac.nz/CSS/CSService.svc/courses',
                 type: 'GET',
-                dataType: 'xml',
+                dataType: 'text',
                 cache: false
             }).success(function (data){
                 var courses = data;
                 alert('success!');
                 alert(data);
-                $('#courses').append('<strong>'+ data.childNodes[0].childNodes[0].childNodes[2].value +'</strong>');
+                //$('#courses').append('<strong>'+ data.childNodes[0].childNodes[0].childNodes[2].value +'</strong>');
             }).error(function (data){
                 alert('An error occurred while trying to retrieve data. Please try again later.')
             })
