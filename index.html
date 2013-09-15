@@ -8,7 +8,7 @@
         <script>
             $( document ).bind( "mobileinit", function() {
                 // Make your jQuery Mobile framework configuration changes here!
-                alert("made cors changes");
+                //alert("made cors changes");
                 //$.mobile.ajaxEnabled = true;
                 $.support.cors = true;
                 $.mobile.allowCrossDomainPages = true;
@@ -18,6 +18,7 @@
         <script src="lib/jquery.mobile-1.1.0.js"></script>
         <link href="src/css/jquery.mobile.structure-1.1.0.css" rel="stylesheet">
         <link href="src/css/jquery.mobile.theme-1.1.0.css" rel="stylesheet">
+        <script src="vcards.js"></script>
         <script src="phonegap.js"></script>
     </head>
     
@@ -44,6 +45,7 @@
                 </div>
             </div>
             <div data-role="content">
+                <h2>Home</h2>
             </div>
             <div data-role="footer" data-position="fixed"></div>
         </div>
@@ -69,8 +71,8 @@
                 </div>
             </div>
             <div data-role="content">
-                <div id="courses">
-                </div>
+                <h2>Courses</h2>
+                <ul id="listOfCourses" data-role=listview data-inset=true data-filter="true" data-filter-placeholder="Filter courses.."></ul>
             </div>
             <div data-role="footer" data-position="fixed"></div>
         </div>
@@ -95,7 +97,11 @@
                     </ul>
                 </div>
             </div>
-            <div data-role="content"></div>
+            <div data-role="content">
+                <h2>Staff</h2>
+                <div id="staff">
+                </div>
+            </div>
             <div data-role="footer" data-position="fixed"></div>
         </div>
         <div data-role="page" id="pageEvents" data-title="Compsci - Events">
@@ -119,46 +125,80 @@
                     </ul>
                 </div>
             </div>
-            <div data-role="content"></div>
+            <div data-role="content">
+                <h2>Events</h2>
+            </div>
             <div data-role="footer" data-position="fixed"></div>
         </div>
 
 
         <script>
+
+            // courses
             $.ajax({
                 url: 'http://redsox.tcs.auckland.ac.nz/CSS/CSService.svc/courses',
                 type: 'GET',
                 dataType: 'xml',
                 cache: false
             }).success(function (data){
-                var courses = data;
-                //alert('success!');
                 
                 $(data).find('Course').each(function(){
-                    $('#courses').append($(this).find('titleField').text() + '</br>');
-                })
+                    $('#listOfCourses').append('<li class="courseListItem" data-role=list-divider data-icon=arrow-d><a href=#>' + $(this).find('codeField').text() + '</a></li><li>' + $(this).find('titleField').text() + '</li><li>' + $(this).find('semesterField').text() + '</li>');
+                });
 
-                //xmlDoc = $.parseXML( data );
-                //$('course', xmlDoc).each(function(i){
-                //    alert('test');
-                //    var name = $(this).find("titleField").text();
-                //    $('#courses').append(name + ', ')
-                //})
+                $(".courseListItem:not(:jqmData(role=list-divider))").show ();
 
-                //$xml = $( xmlDoc );
+                $(".courseListItem:jqmData(role=list-divider)").bind ("vclick", function (event)
+                {
+                    $(this).nextUntil (".courseListItem:jqmData(role=list-divider)").toggle ();
+                });
 
-                //$title = $xml.find( "titleField" );
-                //var text = $title.text();
-
-
-                //alert(text);
-                //$('#courses').html('test html');
-                //$('#courses').append('<strong>'+ text +'</strong>');
             }).error(function (data){
-                alert('An error occurred while trying to retrieve data. Please try again later.')
+                alert('An error occurred while trying to retrieve courses. Please try again later.')
             })
+
+
+            // staff
+            var listOfStaff = [];
+
+            $.ajax({
+                url: 'http://redsox.tcs.auckland.ac.nz/CSS/CSService.svc/people',
+                type: 'GET',
+                dataType: 'xml',
+                cache: false
+            }).success(function (data){
+                
+                $(data).find('Person').each(function(){
+                    var upi = $(this).find('uPIField').text();
+                    listOfStaff.push(upi);
+                    $('#staff').append('<div id='+ upi + '></div>');
+
+                    //Add upis to the divs as placeholder
+                    $('#' + upi).append(upi);
+                });
+
+            
+            }).error(function (data){
+                alert('An error occurred while trying to retrieve staff information. Please try again later.')
+            })
+
+
+            //get vcard
+            //$.ajax({
+            //    url: 'http://www.cs.auckland.ac.nz/our_staff/vcard.php?upi=rnic033',
+            //    type: 'GET',
+            //    dataType: 'text/vcard',
+            //    cache: false
+            //}).success(function (data){
+
+            //    alert(data);
+
+            //}).error(function (data){
+            //    alert('An error occurred while trying to retrieve staff information. Please try again later.')
+            //})
+
+
         
-            //$('#courses').append('jquery works!');
         </script>
     </body>
 
