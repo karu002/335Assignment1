@@ -128,20 +128,32 @@
             $.ajax({
                 url: 'http://redsox.tcs.auckland.ac.nz/CSS/CSService.svc/courses',
                 type: 'GET',
-                dataType: 'text',
+                dataType: 'xml',
                 cache: false
             }).success(function (data){
                 var courses = data;
                 //alert('success!');
                 
-                xmlDoc = $.parseXML( data ),
-                $xml = $( xmlDoc ),
-                $title = $xml.find( "titleField" );
-                var text = $title.text();
+                $(data).find('Course').each(function(){
+                    $('#courses').append($(this).find('titleField').text() + '</br>');
+                })
+
+                //xmlDoc = $.parseXML( data );
+                //$('course', xmlDoc).each(function(i){
+                //    alert('test');
+                //    var name = $(this).find("titleField").text();
+                //    $('#courses').append(name + ', ')
+                //})
+
+                //$xml = $( xmlDoc );
+
+                //$title = $xml.find( "titleField" );
+                //var text = $title.text();
+
 
                 //alert(text);
                 //$('#courses').html('test html');
-                $('#courses').append('<strong>'+ text +'</strong>');
+                //$('#courses').append('<strong>'+ text +'</strong>');
             }).error(function (data){
                 alert('An error occurred while trying to retrieve data. Please try again later.')
             })
