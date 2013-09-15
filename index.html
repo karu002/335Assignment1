@@ -133,7 +133,7 @@
             }).success(function (data){
                 var courses = data;
                 alert('success!');
-                $('#courses').append('<strong>test worked</strong>');
+                $('#courses').append('<strong>'+ data.childNodes[0].childNodes[0].childNodes[2].innerHTML +'</strong>');
             }).error(function (data){
                 alert('An error occurred while trying to retrieve data. Please try again later.')
             })
