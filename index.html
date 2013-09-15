@@ -138,7 +138,8 @@
                 $xml = $( xmlDoc ),
                 $title = $xml.find( "titleField" );
                 var text = $title.text();
-                
+
+                alert(text);
                 $('#courses').html('<strong>'+ text +'</strong>');
             }).error(function (data){
                 alert('An error occurred while trying to retrieve data. Please try again later.')
