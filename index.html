@@ -5,6 +5,16 @@
         <title>Compsci - Home</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="lib/jquery-1.6.4.js"></script>
+        <script>
+            $( document ).bind( "mobileinit", function() {
+                // Make your jQuery Mobile framework configuration changes here!
+                alert("made cors changes");
+                //$.mobile.ajaxEnabled = true;
+                $.support.cors = true;
+                $.mobile.allowCrossDomainPages = true;
+
+            });
+        </script>
         <script src="lib/jquery.mobile-1.1.0.js"></script>
         <link href="src/css/jquery.mobile.structure-1.1.0.css" rel="stylesheet">
         <link href="src/css/jquery.mobile.theme-1.1.0.css" rel="stylesheet">
@@ -116,22 +126,18 @@
 
 
         <script>
-            alert($.support.cors);
-            $.mobile.allowCrossDomainPages = true;
-            alert($.mobile.allowCrossDomainPages);
             $.ajax({
                 url: 'http://redsox.tcs.auckland.ac.nz/CSS/CSService.svc/courses',
                 type: 'GET',
                 cache: false
             }).success(function (data){
                 var courses = data;
-                //alert(data.activeElement.children[0].children[0].innerHTML);
-                $('#courses').html('<strong>' + data.activeElement.children[0].children[0].innerHTML + '</strong>');
+                alert('success!');
+                $('#courses').html('<strong>' + data.activeElement.children[0] + '</strong>');
             }).error(function (data){
                 alert('An error occurred while trying to retrieve data. Please try again later.')
             })
-
-
+        
             $('#courses').append('jquery works!');
         </script>
     </body>
