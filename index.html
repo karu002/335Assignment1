@@ -44,7 +44,6 @@
                 </div>
             </div>
             <div data-role="content">
-                <img src="http://upload.wikimedia.org/wikipedia/commons/1/16/GYALWA_KARMAPA-HST-80x80-IV_08.jpg" alt="image">
             </div>
             <div data-role="footer" data-position="fixed"></div>
         </div>
@@ -138,8 +137,9 @@
                 xmlDoc = $.parseXML( data ),
                 $xml = $( xmlDoc ),
                 $title = $xml.find( "titleField" );
-
-                $('#courses').append('<strong>'+ $title.text() +'</strong>');
+                var text = $title.text();
+                
+                $('#courses').html('<strong>'+ text +'</strong>');
             }).error(function (data){
                 alert('An error occurred while trying to retrieve data. Please try again later.')
             })
