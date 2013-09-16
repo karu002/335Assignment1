@@ -23,6 +23,8 @@
     </head>
     
     <body>
+
+        <!-- HOME PAGE -->
         <div data-role="page" id="pageHome" data-title="Compsci - Home">
             <div data-role="header" style="background-image: url('images/clouds.jpg'); background-attachment: fixed; background-repeat: no-repeat; background-size: 100% 100%;"
             data-position="fixed">
@@ -49,6 +51,8 @@
             </div>
             <div data-role="footer" data-position="fixed"></div>
         </div>
+
+        <!-- COURSE PAGE -->
         <div data-role="page" id="pageCourses" data-title="Compsci - Courses">
             <div data-role="header" style="background-image: url('images/clouds.jpg'); background-attachment: fixed; background-repeat: no-repeat; background-size: 100% 100%;"
             data-position="fixed">
@@ -72,10 +76,13 @@
             </div>
             <div data-role="content">
                 <h2>Courses</h2>
-                <ul id="listOfCourses" data-role=listview data-inset=true data-filter="true" data-filter-placeholder="Filter courses.."></ul>
+                <ul id="listOfCourses" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Filter courses.."> </ul>
+                    <!--data-role="listview" data-filter="true" data-filter-placeholder="Find course..."--> 
             </div>
             <div data-role="footer" data-position="fixed"></div>
         </div>
+
+        <!-- STAFF PAGE -->
         <div data-role="page" id="pageStaff" data-title="Compsci - Staff">
             <div data-role="header" style="background-image: url('images/clouds.jpg'); background-attachment: fixed; background-repeat: no-repeat; background-size: 100% 100%;"
             data-position="fixed">
@@ -99,11 +106,14 @@
             </div>
             <div data-role="content">
                 <h2>Staff</h2>
-                <div id="staff">
+                <div id="wrapper">
+                    <ul id="staff"</ul>
                 </div>
             </div>
             <div data-role="footer" data-position="fixed"></div>
         </div>
+
+        <!-- EVENTS PAGE -->
         <div data-role="page" id="pageEvents" data-title="Compsci - Events">
             <div data-role="header" style="background-image: url('images/clouds.jpg'); background-attachment: fixed; background-repeat: no-repeat; background-size: 100% 100%;"
             data-position="fixed">
@@ -132,6 +142,9 @@
         </div>
 
 
+
+
+
         <script>
 
             // courses
@@ -141,16 +154,20 @@
                 dataType: 'xml',
                 cache: false
             }).success(function (data){
-                
                 $(data).find('Course').each(function(){
-                    $('#listOfCourses').append('<li class="courseListItem" data-role=list-divider data-icon=arrow-d><a href=#>' + $(this).find('codeField').text() + '</a></li><li>' + $(this).find('titleField').text() + '</li><li>' + $(this).find('semesterField').text() + '</li>');
+
+                    // get the course info
+                    var courseCodeField = $(this).find('codeField').text()
+                    var courseTitleField = $(this).find('titleField').text()
+                    var courseSemesterField = $(this).find('semesterField').text()
+
+                    $('#listOfCourses').append('<li class="courseID" data-role=list-divider data-theme=a data-icon=arrow-d><a href=#>'+courseCodeField+'</a></li>'+'<li class="hideIt" data-theme=b>'+courseTitleField+'</li>'+'<li class="hideIt" data-theme=b> Available in: '+courseSemesterField+'</li>');
                 });
 
-                $(".courseListItem:not(:jqmData(role=list-divider))").show ();
-
-                $(".courseListItem:jqmData(role=list-divider)").bind ("vclick", function (event)
-                {
-                    $(this).nextUntil (".courseListItem:jqmData(role=list-divider)").toggle ();
+                // hides initially if its not apart of the class hideIt
+                $(".hideIt:not(:jqmData(role=list-divider))").hide ();
+                $(".courseID:jqmData(role=list-divider)").bind ("vclick", function (event) {
+                    $(this).nextUntil (".courseID:jqmData(role=list-divider)").toggle ();
                 });
 
             }).error(function (data){
